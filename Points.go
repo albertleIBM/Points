@@ -156,7 +156,7 @@ func (t *SimpleChaincode) createAccount(stub *shim.ChaincodeStub, args []string)
     }
     username := args[0]
 
-    var account = Account{ID: username, CashBalance: 1000.0}
+    var account = Account{ID: username, CashBalance: 100}
     accountBytes, err := json.Marshal(&account)
     if err != nil {
         fmt.Println("error creating account" + account.ID)
@@ -210,7 +210,7 @@ func (t *SimpleChaincode) createAccount(stub *shim.ChaincodeStub, args []string)
 // ============================================================================================================================
 func (t *SimpleChaincode) set_user(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
 	var err error
-
+  var toRes Account
 	//     0         1        2
 	// "fromUser", "500", "toUser",
 	if len(args) < 2 {
@@ -229,8 +229,10 @@ func (t *SimpleChaincode) set_user(stub *shim.ChaincodeStub, args []string) ([]b
 
 	fromRes := Account{}
 	json.Unmarshal(fromAccountAsBytes, &fromRes)										//un stringify it aka JSON.parse()
-  toRes := Account{}
+
+  toRes = Account{}
 	json.Unmarshal(toAccountAsBytes, &toRes)
+
 
 
 	accountBalance := fromRes.CashBalance
