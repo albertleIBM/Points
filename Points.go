@@ -66,13 +66,13 @@ func main() {
 }
 
 
-// ============================================================================================================================
-// Run - Our entry point for Invocations - [LEGACY] obc-peer 4/25/2016
-// ============================================================================================================================
-func (t *SimpleChaincode) Run(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
-	fmt.Println("run is running " + function)
-	return t.Invoke(stub, function, args)
-}
+// // ============================================================================================================================
+// // Run - Our entry point for Invocations - [LEGACY] obc-peer 4/25/2016
+// // ============================================================================================================================
+// func (t *SimpleChaincode) Run(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+// 	fmt.Println("run is running " + function)
+// 	return t.Invoke(stub, function, args)
+// }
 
 // ============================================================================================================================
 // Invoke - Our entry point for  TO REMOVE SHITTTTTT
