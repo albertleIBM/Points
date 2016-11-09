@@ -14,8 +14,8 @@ type SimpleChaincode struct {
 }
 
 type Account struct {
-	ID          string  `json:"id"`
-	CashBalance int     `json:"cashBalance"`
+	ID          string  `json:"ID"`
+	CashBalance int     `json:"CashBalance"`
 }
 
 type Transaction struct {
@@ -156,7 +156,7 @@ func (t *SimpleChaincode) createAccount(stub *shim.ChaincodeStub, args []string)
     }
     username := args[0]
 
-    var account = Account{ID: username, CashBalance: 100}
+    var account = Account{ID: username, CashBalance: 500}
     accountBytes, err := json.Marshal(&account)
     if err != nil {
         fmt.Println("error creating account" + account.ID)
