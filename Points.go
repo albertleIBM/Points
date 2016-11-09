@@ -15,7 +15,6 @@ type SimpleChaincode struct {
 
 type Account struct {
 	ID          string  `json:"id"`
-	Prefix      string  `json:"prefix"`
 	CashBalance int     `json:"cashBalance"`
 }
 
@@ -130,6 +129,7 @@ func (t *SimpleChaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte,
 
 	return valAsbytes, nil													//send it onward
 }
+
 func (t *SimpleChaincode) Write(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
 	var name, value string // Entities
 	var err error
@@ -252,7 +252,7 @@ func (t *SimpleChaincode) set_user(stub *shim.ChaincodeStub, args []string) ([]b
   fromRes.CashBalance = fromRes.CashBalance - transferAmount
 
 	toJsonAsBytes, _ := json.Marshal(toRes)
-	err = stub.PutState(args[0], toJsonAsBytes)								//rewrite the marble with id as key
+	err = stub.PutState(args[2], toJsonAsBytes)								//rewrite the marble with id as key
 	if err != nil {
 		return nil, err
 	}
