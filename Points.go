@@ -217,9 +217,6 @@ func (t *SimpleChaincode) set_user(stub *shim.ChaincodeStub, args []string) ([]b
 		return nil, errors.New("Incorrect number of arguments. Expecting 2")
 	}
 
-	fmt.Println("- start set user")
-	fmt.Println(args[0])
-
 	fromAccountAsBytes, err := stub.GetState(args[0])
 	if err != nil {
 		return nil, errors.New("Failed to get thing")
@@ -248,7 +245,7 @@ func (t *SimpleChaincode) set_user(stub *shim.ChaincodeStub, args []string) ([]b
     return nil, nil
   }
 
-  toRes.CashBalance = toRes.CashBalance + transferAmount
+  toRes.CashBalance = accountBalance + transferAmount
   fromRes.CashBalance = fromRes.CashBalance - transferAmount
 
 	toJsonAsBytes, _ := json.Marshal(toRes)
