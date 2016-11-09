@@ -34,10 +34,6 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	var Aval int
 	var err error
 
-	if len(args) != 1 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 1")
-	}
-
 	// Initialize the chaincode
 	Aval, err = strconv.Atoi(args[0])
 	if err != nil {
