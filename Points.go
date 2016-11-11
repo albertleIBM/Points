@@ -157,15 +157,18 @@ func (t *SimpleChaincode) createAccount(stub *shim.ChaincodeStub, args []string)
     username := args[0]
 
     var account = Account{ID: username, CashBalance: 500}
-    accountBytes, err := json.Marshal(&account)
-    if err != nil {
-        fmt.Println("error creating account" + account.ID)
-        return nil, errors.New("Error creating account " + account.ID)
-    }
+
+    //build the  json string manually
+	account := `{"ID": "` + username + `", "CashBalance": "` + 500 +  `"}`
+	err = stub.PutState(username, []byte(account))
+	if err != nil {
+		return nil, err
+	}
+
 
     fmt.Println("Attempting to get state of any existing account for " + account.ID)
 
-    existingBytes, err := stub.GetState(username + account.ID)
+    existingBytes, err := stub.GetState(username)
 
 	  if err == nil {
         var accountData Account
@@ -175,11 +178,11 @@ func (t *SimpleChaincode) createAccount(stub *shim.ChaincodeStub, args []string)
 
             if strings.Contains(err.Error(), "unexpected end") {
                 fmt.Println("No data means existing account found for " + account.ID + ", initializing account.")
-                err = stub.PutState(username, accountBytes)
+                err = stub.PutState(username, []byte(account))
 
                 if err == nil {
                     fmt.Println("created account" + account.ID)
-                    return accountBytes, nil
+                    return []byte(account), nil
                 } else {
                     fmt.Println("failed to create initialize account for " + account.ID)
                     return nil, errors.New("failed to initialize an account for " + account.ID + " => " + err.Error())
@@ -193,18 +196,17 @@ func (t *SimpleChaincode) createAccount(stub *shim.ChaincodeStub, args []string)
         }
     } else {
         fmt.Println("No existing account found for " + account.ID + ", initializing account.")
-        err = stub.PutState(account.ID, accountBytes)
+        err = stub.PutState(account.ID, []byte(account))
 
         if err == nil {
             fmt.Println("created account" + account.ID)
-            return accountBytes, nil
+            return []byte(account), nil
         } else {
             fmt.Println("failed to create initialize account for " + account.ID)
             return nil, errors.New("failed to initialize an account for " + account.ID + " => " + err.Error())
         }
     }
 }
-
 // ============================================================================================================================
 // Set Trade - create an open trade for a marble you want with marbles you have
 // ============================================================================================================================
