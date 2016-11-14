@@ -156,11 +156,12 @@ func (t *SimpleChaincode) createAccount(stub *shim.ChaincodeStub, args []string)
     }
     username := args[0]
 
-    var account = Account{ID: username, CashBalance: 500}
+  var account = Account{ID: username, CashBalance: 500}
 
     //build the  json string manually
 	account := `{"ID": "` + username + `", "CashBalance": "` + 500 +  `"}`
-	err = stub.PutState(username, []byte(account))
+  jsonAsBytes, _ := json.Marshal(account)
+	err := stub.PutState(username, jsonAsBytes
 	if err != nil {
 		return nil, err
 	}
@@ -178,7 +179,7 @@ func (t *SimpleChaincode) createAccount(stub *shim.ChaincodeStub, args []string)
 
             if strings.Contains(err.Error(), "unexpected end") {
                 fmt.Println("No data means existing account found for " + account.ID + ", initializing account.")
-                err = stub.PutState(username, []byte(account))
+                err = stub.PutState(username, jsonAsBytes)
 
                 if err == nil {
                     fmt.Println("created account" + account.ID)
@@ -196,11 +197,11 @@ func (t *SimpleChaincode) createAccount(stub *shim.ChaincodeStub, args []string)
         }
     } else {
         fmt.Println("No existing account found for " + account.ID + ", initializing account.")
-        err = stub.PutState(account.ID, []byte(account))
+        err = stub.PutState(account.ID, jsonAsBytes)
 
         if err == nil {
             fmt.Println("created account" + account.ID)
-            return []byte(account), nil
+            return jsonAsBytes, nil
         } else {
             fmt.Println("failed to create initialize account for " + account.ID)
             return nil, errors.New("failed to initialize an account for " + account.ID + " => " + err.Error())
