@@ -159,9 +159,9 @@ func (t *SimpleChaincode) createAccount(stub *shim.ChaincodeStub, args []string)
   var account = Account{ID: username, CashBalance: 500}
 
     //build the  json string manually
-	account := `{"ID": "` + username + `", "CashBalance": "` + 500 +  `"}`
+
   jsonAsBytes, _ := json.Marshal(account)
-	err := stub.PutState(username, jsonAsBytes
+	err := stub.PutState(username, jsonAsBytes)
 	if err != nil {
 		return nil, err
 	}
