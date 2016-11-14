@@ -183,7 +183,7 @@ func (t *SimpleChaincode) createAccount(stub *shim.ChaincodeStub, args []string)
 
                 if err == nil {
                     fmt.Println("created account" + account.ID)
-                    return []byte(account), nil
+                    return jsonAsBytes, nil
                 } else {
                     fmt.Println("failed to create initialize account for " + account.ID)
                     return nil, errors.New("failed to initialize an account for " + account.ID + " => " + err.Error())
